@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${formTitle}">Doctor Form</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-row">
+        <h1 th:text="${formTitle}">Doctor Form</h1>
+        <nav class="header-actions">
+            <a class="btn" th:href="@{/admin/doctors}">Back</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <form class="doctor-form" th:action="@{${actionUrl}}" th:object="${doctorForm}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <label for="name">Doctor Name</label>
+        <input id="name" type="text" th:field="*{name}" placeholder="Enter doctor name">
+        <small class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+
+        <label for="specialty">Specialty</label>
+        <input id="specialty" type="text" th:field="*{specialty}" placeholder="Enter specialty">
+        <small class="error" th:if="${#fields.hasErrors('specialty')}" th:errors="*{specialty}"></small>
+
+        <label for="departmentId">Department</label>
+        <select id="departmentId" th:field="*{departmentId}">
+            <option value="">-- Select department --</option>
+            <option th:each="department : ${departments}"
+                    th:value="${department.id}"
+                    th:text="${department.name}"></option>
+        </select>
+        <small class="error" th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}"></small>
+
+        <label for="image">Image URL</label>
+        <input id="image" type="url" th:field="*{image}" placeholder="https://example.com/doctor.jpg">
+
+        <button class="btn" type="submit">Save</button>
+    </form>
+</main>
+</body>
+</html>

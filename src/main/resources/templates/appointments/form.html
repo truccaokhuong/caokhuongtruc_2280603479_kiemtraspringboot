@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-row">
+        <h1>Book Appointment</h1>
+        <nav class="header-actions">
+            <a class="btn" th:href="@{/home}">Back to Home</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="doctor-form">
+        <h3 th:text="${doctor.name}">Doctor Name</h3>
+        <p><strong>Specialty:</strong> <span th:text="${doctor.specialty}"></span></p>
+        <p><strong>Department:</strong> <span th:text="${doctor.department.name}"></span></p>
+
+        <form th:action="@{/enroll/doctor/{id}(id=${doctor.id})}" th:object="${appointmentForm}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <label for="appointmentDate">Appointment Date</label>
+            <input id="appointmentDate" type="date" th:field="*{appointmentDate}">
+            <small class="error" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}"></small>
+
+            <button class="btn" type="submit">Confirm Booking</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>
